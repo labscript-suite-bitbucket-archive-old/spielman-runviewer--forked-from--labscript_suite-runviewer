@@ -224,6 +224,12 @@ class RunViewer(object):
         self.ui.add_shot.clicked.connect(self.on_add_shot)
         if os.name == 'nt':
             self.ui.newWindow.connect(set_win_appusermodel)
+
+        # The menu items:
+        self.ui.actionOpen_Shot.triggered.connect(self.on_add_shot)
+        # self.ui.actionLoad_runviewer_state.triggered.connect(self.on_load_configuration_triggered)
+        # self.ui.actionSave_runviewer_state.triggered.connect(self.on_load_configuration_triggered)
+        self.ui.actionQuit.triggered.connect(self.ui.close)
         
         self.ui.show()
         
@@ -249,7 +255,7 @@ class RunViewer(object):
             inmain_later(self.load_shot, filepath)
     
     def on_add_shot(self):
-        dialog = QFileDialog(self.ui,"Select file to load", r'C:\Users\Phil\Documents\Programming\labscript_suite\labscript', "HDF5 files (*.h5 *.hdf5)")
+        dialog = QFileDialog(self.ui,"Select file to load", r'C:\labscript_suite\labscript', "HDF5 files (*.h5 *.hdf5)")
         dialog.setViewMode(QFileDialog.Detail)
         dialog.setFileMode(QFileDialog.ExistingFile)
         if dialog.exec_():
@@ -328,23 +334,29 @@ class RunViewer(object):
     
         # add shot to shot list
         # Create Items
-        items = []
-        colour_item = QStandardItem('')
-        colour_item.setEditable(False)
-        colour_item.setToolTip('Double-click to change colour')
-        items.append(colour_item)
-        
-        check_item = QStandardItem(shot.path)
-        check_item.setEditable(False)
-        check_item.setCheckable(True)
-        check_item.setCheckState(Qt.Unchecked) # options are Qt.Checked OR Qt.Unchecked        
-        check_item.setData(shot)
-        items.append(check_item)
-        # script name
-        # path_item = QStandardItem(shot.path)
-        # path_item.setEditable(False)
-        # items.append(path_item)
-        self.shot_model.appendRow(items)
+
+        if self.ui.overwrite_last_checkBox.isChecked() and self.shot_model.rowCount() != 0:
+            # update last item.  
+            check_item = self.shot_model.item( self.shot_model.rowCount() - 1, 1)
+            check_item.setText(shot.path)
+            check_item.setData(shot)
+        else:
+            # Add an item
+            items = []
+            colour_item = QStandardItem('')
+            colour_item.setEditable(False)
+            colour_item.setToolTip('Double-click to change colour')
+            items.append(colour_item)
+            
+            check_item = QStandardItem()
+            check_item.setText(shot.path)
+            check_item.setEditable(False)
+            check_item.setCheckable(True)
+            check_item.setCheckState(Qt.Unchecked) # options are Qt.Checked OR Qt.Unchecked        
+            check_item.setData(shot)
+            items.append(check_item)
+                   
+            self.shot_model.appendRow(items)
         
         # only do this if we are checking the shot we are adding
         #self.update_channels_treeview()

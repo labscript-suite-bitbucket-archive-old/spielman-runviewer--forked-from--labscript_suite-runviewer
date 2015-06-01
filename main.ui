@@ -86,16 +86,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="auto_update_pushButton">
-             <property name="toolTip">
-              <string>Replace the last item in runviewer when a new file is sent.  Force prompt recompute as well.  This is useful when debugging new code in runmanager and you want to see prompt updates.</string>
-             </property>
-             <property name="text">
-              <string>Auto-update last</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <spacer name="horizontalSpacer">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -107,6 +97,16 @@
               </size>
              </property>
             </spacer>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="overwrite_last_checkBox">
+             <property name="toolTip">
+              <string>Replace the last item in runviewer when a new file is sent.  Force prompt recompute as well.  This is useful when debugging new code in runmanager and you want to see prompt updates.</string>
+             </property>
+             <property name="text">
+              <string>Overwrite last</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -307,7 +307,7 @@ V</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>357</width>
+             <width>331</width>
              <height>672</height>
             </rect>
            </property>
@@ -390,6 +390,9 @@ V</string>
    <property name="text">
     <string>Open Shot</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
   <action name="actionSave_runviewer_state">
    <property name="text">
@@ -404,6 +407,9 @@ V</string>
   <action name="actionQuit">
    <property name="text">
     <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
  </widget>

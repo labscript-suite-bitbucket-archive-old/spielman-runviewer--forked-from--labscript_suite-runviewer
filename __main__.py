@@ -285,34 +285,7 @@ class RunViewer(object):
                 
     
     def on_shot_selection_changed(self, item):
-        if self.shot_model.indexFromItem(item).column() == SHOT_MODEL__CHECKBOX_INDEX:
-    
-            # add or remove a colour for this shot
-            checked = item.checkState()
-            row = self.shot_model.indexFromItem(item).row()
-            colour_item = self.shot_model.item(row,SHOT_MODEL__COLOUR_INDEX)
-            
-            if checked:
-                colour = self.shot_colour_delegate.get_next_colour()
-                colour_item.setEditable(True)
-                pixmap = QPixmap(20,20)
-                pixmap.fill(colour)
-                icon = QIcon(pixmap)
-            else:
-                colour = None
-                icon = None
-                colour_item.setEditable(False)
-                
-            colour_item.setData(icon, Qt.DecorationRole)
-            colour_item.setData(lambda clist=self.shot_colour_delegate._colours,colour=colour:int_to_enum(clist,colour), Qt.UserRole)
-            
-            # model.setData(index, editor.itemIcon(editor.currentIndex()), 
-            # model.setData(index, editor.itemData(editor.currentIndex()), Qt.UserRole)
-            
-            
-        
-            self.update_channels_treeview()
-        elif self.shot_model.indexFromItem(item).column() == SHOT_MODEL__COLOUR_INDEX:
+        if self.shot_model.indexFromItem(item).column() == SHOT_MODEL__COLOUR_INDEX:
             #update the plot colours
             
             # get reference to the changed shot
@@ -346,6 +319,16 @@ class RunViewer(object):
             colour_item = QStandardItem('')
             colour_item.setEditable(False)
             colour_item.setToolTip('Double-click to change colour')
+                
+            colour = self.shot_colour_delegate.get_next_colour()
+            colour_item.setEditable(True)
+            pixmap = QPixmap(20,20)
+            pixmap.fill(colour)
+            icon = QIcon(pixmap)
+                
+            colour_item.setData(icon, Qt.DecorationRole)
+            colour_item.setData(lambda clist=self.shot_colour_delegate._colours,colour=colour:int_to_enum(clist,colour), Qt.UserRole)
+            
             items.append(colour_item)
             
             check_item = QStandardItem()

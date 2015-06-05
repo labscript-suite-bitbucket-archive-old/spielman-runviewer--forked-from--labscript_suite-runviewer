@@ -285,7 +285,9 @@ class RunViewer(object):
                 
     
     def on_shot_selection_changed(self, item):
-        if self.shot_model.indexFromItem(item).column() == SHOT_MODEL__COLOUR_INDEX:
+        if self.shot_model.indexFromItem(item).column() == SHOT_MODEL__CHECKBOX_INDEX:
+            self.update_channels_treeview()
+        elif self.shot_model.indexFromItem(item).column() == SHOT_MODEL__COLOUR_INDEX:
             #update the plot colours
             
             # get reference to the changed shot
